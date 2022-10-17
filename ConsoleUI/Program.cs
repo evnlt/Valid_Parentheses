@@ -14,7 +14,7 @@ namespace ConsoleUI
 
                 try
                 {
-                    Console.WriteLine("Result: " + Solution.IsValid(input));
+                    Console.WriteLine("Result: " + Solution.IsValid_UsingStack(input));
                 }
                 catch (ArgumentException)
                 {

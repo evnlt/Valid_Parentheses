@@ -14,6 +14,7 @@ namespace ConsoleUI
 
         public static bool IsValid(string str)
         {
+            // validation
             if (str == null)
                 throw new NullReferenceException();
 
@@ -23,6 +24,7 @@ namespace ConsoleUI
             if (!str.ContainsOnlyParenthesis())
                 throw new ArgumentException("Not all characters are parenthesis");
 
+            // algorithm
             if (len % 2 == 1)
                 return false;
 
@@ -43,6 +45,39 @@ namespace ConsoleUI
                 }
             }
             return true;
+        }
+
+        // ()([])
+        public static bool IsValid_UsingStack(string str)
+        {
+            // validation
+            if (str == null)
+                throw new NullReferenceException();
+
+            int len = str.Length;
+            if (len <= 1 || len > 1000)
+                throw new ArgumentException("Invalid length");
+            if (!str.ContainsOnlyParenthesis())
+                throw new ArgumentException("Not all characters are parenthesis");
+
+            // algorithm
+            if (len % 2 == 1)
+                return false;
+
+            Stack<char> stack = new();
+            foreach (char c in str)
+            {
+                if (_brackets.ContainsKey(c))
+                    stack.Push(c);
+                else if (stack.Any())
+                {
+                    if (c != _brackets[stack.Pop()])
+                        return false;
+                }
+                else
+                    return false;
+            }
+            return !stack.Any();
         }
         private static bool ContainsOnlyParenthesis(this string str)
         {
