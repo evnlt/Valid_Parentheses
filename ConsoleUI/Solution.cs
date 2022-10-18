@@ -11,7 +11,9 @@ namespace ConsoleUI
         private static Dictionary<char, char> _brackets = new() { { '(', ')' }, { '{', '}' }, { '[', ']' } };
 
         // O(n) despite there being 2 (not nested) for loops
-
+        
+        // IsValid has only 1 usecase: an opening bracket is followed by the same type closing bracket
+        // IsValid_UsingStack is to be used when brackets can contain other brackets inside (just like in maths!!!)
         public static bool IsValid(string str)
         {
             // validation
@@ -46,8 +48,6 @@ namespace ConsoleUI
             }
             return true;
         }
-
-        // ()([])
         public static bool IsValid_UsingStack(string str)
         {
             // validation
@@ -68,16 +68,16 @@ namespace ConsoleUI
             foreach (char c in str)
             {
                 if (_brackets.ContainsKey(c))
-                    stack.Push(c);
+                    stack.Push(_brackets[c]);
                 else if (stack.Any())
                 {
-                    if (c != _brackets[stack.Pop()])
+                    if (c != stack.Pop())
                         return false;
                 }
                 else
                     return false;
             }
-            return !stack.Any();
+            return stack.Count == 0;
         }
         private static bool ContainsOnlyParenthesis(this string str)
         {
